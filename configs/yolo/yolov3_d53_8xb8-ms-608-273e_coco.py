@@ -165,3 +165,4 @@ default_hooks = dict(checkpoint=dict(type='CheckpointHook', interval=7))
 # USER SHOULD NOT CHANGE ITS VALUES.
 # base_batch_size = (8 GPUs) x (8 samples per GPU)
 auto_scale_lr = dict(base_batch_size=64)
+
