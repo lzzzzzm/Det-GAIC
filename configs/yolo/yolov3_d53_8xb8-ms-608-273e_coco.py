@@ -64,7 +64,7 @@ model = dict(
         max_per_img=100))
 # dataset settings
 dataset_type = 'CocoDataset'
-data_root = 'data/coco/'
+data_root = 'data/gaic/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
@@ -82,7 +82,7 @@ data_root = 'data/coco/'
 backend_args = None
 
 train_pipeline = [
-    dict(type='LoadImageFromFile', backend_args=backend_args),
+    dict(type='LoadRGBTIRFromFile', backend_args=backend_args),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='Expand',
@@ -99,7 +99,7 @@ train_pipeline = [
     dict(type='PackDetInputs')
 ]
 test_pipeline = [
-    dict(type='LoadImageFromFile', backend_args=backend_args),
+    dict(type='LoadRGBTIRFromFile', backend_args=backend_args),
     dict(type='Resize', scale=(608, 608), keep_ratio=True),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
@@ -109,7 +109,7 @@ test_pipeline = [
 ]
 
 train_dataloader = dict(
-    batch_size=8,
+    batch_size=2,
     num_workers=4,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -117,8 +117,8 @@ train_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='annotations/instances_train2017.json',
-        data_prefix=dict(img='train2017/'),
+        ann_file='annotations/train.json',
+        data_prefix=dict(img='train/'),
         filter_cfg=dict(filter_empty_gt=True, min_size=32),
         pipeline=train_pipeline,
         backend_args=backend_args))
@@ -131,8 +131,8 @@ val_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='annotations/instances_val2017.json',
-        data_prefix=dict(img='val2017/'),
+        ann_file='annotations/val.json',
+        data_prefix=dict(img='val/'),
         test_mode=True,
         pipeline=test_pipeline,
         backend_args=backend_args))
@@ -140,7 +140,7 @@ test_dataloader = val_dataloader
 
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'annotations/instances_val2017.json',
+    ann_file=data_root + 'annotations/val.json',
     metric='bbox',
     backend_args=backend_args)
 test_evaluator = val_evaluator
