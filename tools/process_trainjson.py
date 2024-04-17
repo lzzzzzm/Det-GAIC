@@ -41,6 +41,7 @@ def process(args):
     with open(args.train_out_json, 'w') as fp:
         json.dump(out_json_data, fp)
 
+
     # ---------------------------------------
     json_file_path = args.val_json_path
     with open(json_file_path, 'r') as f:
