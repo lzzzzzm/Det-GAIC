@@ -52,6 +52,8 @@ class MyDetVisualizationHook(Hook):
     """
 
     def __init__(self,
+                 rgb = False,
+                 tir = True,
                  draw: bool = False,
                  interval: int = 50,
                  score_thr: float = 0.3,
@@ -59,6 +61,8 @@ class MyDetVisualizationHook(Hook):
                  wait_time: float = 0.,
                  test_out_dir: Optional[str] = None,
                  backend_args: dict = None):
+        self.rgb = rgb
+        self.tir = tir
         self._visualizer: Visualizer = Visualizer.get_current_instance()
         self.interval = interval
         self.score_thr = score_thr
@@ -138,8 +142,12 @@ class MyDetVisualizationHook(Hook):
             root_name = os.path.join(name[0], name[1])
             rgb_filename = os.path.join(root_name, name[2], 'rgb', img_name)
             tir_filename = os.path.join(root_name, name[2], 'tir', img_name)
-            img_bytes = get(rgb_filename, backend_args=self.backend_args)
-            img = mmcv.imfrombytes(img_bytes, channel_order='rgb')
+            if self.rgb:
+                img_bytes = get(rgb_filename, backend_args=self.backend_args)
+                img = mmcv.imfrombytes(img_bytes, channel_order='rgb')
+            elif self.tir:
+                img_bytes = get(tir_filename, backend_args=self.backend_args)
+                img = mmcv.imfrombytes(img_bytes, channel_order='rgb')
 
             out_file = None
             if self.test_out_dir is not None:

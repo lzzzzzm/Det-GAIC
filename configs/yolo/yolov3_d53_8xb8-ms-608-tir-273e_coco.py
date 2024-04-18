@@ -63,7 +63,7 @@ model = dict(
         nms=dict(type='nms', iou_threshold=0.45),
         max_per_img=100))
 # dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'CocoGAICDataset'
 data_root = 'data/gaic/'
 
 # Example to use different file client
@@ -140,7 +140,7 @@ test_dataloader = val_dataloader
 
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'annotations/val.json',
+    ann_file=data_root + 'annotations/test.json',
     metric='bbox',
     backend_args=backend_args)
 test_evaluator = val_evaluator
@@ -159,14 +159,18 @@ param_scheduler = [
     dict(type='MultiStepLR', by_epoch=True, milestones=[218, 246], gamma=0.1)
 ]
 
-default_hooks = dict(checkpoint=dict(type='CheckpointHook', interval=7),
-                     visualization=dict(
-                     draw=True,
-                     show=True,
-                     test_out_dir='vis_pred',
-                     type='MyDetVisualizationHook',
-                     wait_time=2)
-                     )
+default_hooks = dict(
+    checkpoint=dict(type='CheckpointHook', interval=7),
+    visualization=dict(
+        tir=True,
+        rgb=False,
+        draw=True,
+        show=False,
+        test_out_dir='vis_pred',
+        type='MyDetVisualizationHook',
+        wait_time=1
+     )
+)
 
 # NOTE: `auto_scale_lr` is for automatically scaling LR,
 # USER SHOULD NOT CHANGE ITS VALUES.

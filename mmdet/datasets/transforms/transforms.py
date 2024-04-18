@@ -8,6 +8,7 @@ from typing import List, Optional, Sequence, Tuple, Union
 import cv2
 import mmcv
 import numpy as np
+import torch
 from mmcv.image import imresize
 from mmcv.image.geometric import _scale_size
 from mmcv.transforms import BaseTransform
@@ -3094,6 +3095,7 @@ class CopyPaste(BaseTransform):
         ignore_flags = results['gt_ignore_flags']
 
         selected_inds = self._get_selected_inds(bboxes.shape[0])
+        selected_inds = np.array(selected_inds, dtype=np.int64)
 
         selected_bboxes = bboxes[selected_inds]
         selected_labels = labels[selected_inds]

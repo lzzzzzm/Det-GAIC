@@ -131,8 +131,8 @@ val_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='annotations/val.json',
-        data_prefix=dict(img='val/'),
+        ann_file='annotations/test.json',
+        data_prefix=dict(img='test/'),
         test_mode=True,
         pipeline=test_pipeline,
         backend_args=backend_args))
@@ -159,7 +159,14 @@ param_scheduler = [
     dict(type='MultiStepLR', by_epoch=True, milestones=[218, 246], gamma=0.1)
 ]
 
-default_hooks = dict(checkpoint=dict(type='CheckpointHook', interval=7))
+default_hooks = dict(checkpoint=dict(type='CheckpointHook', interval=7),
+                     visualization=dict(
+                     draw=True,
+                     show=True,
+                     test_out_dir='vis_pred',
+                     type='MyDetVisualizationHook',
+                     wait_time=2)
+                     )
 
 # NOTE: `auto_scale_lr` is for automatically scaling LR,
 # USER SHOULD NOT CHANGE ITS VALUES.

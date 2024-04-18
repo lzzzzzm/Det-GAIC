@@ -1,6 +1,6 @@
 _base_ = '../_base_/default_runtime.py'
 # dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'CocoGAICDataset'
 data_root = 'data/coco/'
 
 image_size = (1024, 1024)

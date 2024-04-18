@@ -6,13 +6,13 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='MMDet test (and eval) a model')
     parser.add_argument(
-        '--train_json_path', type=str, default='data/gaic/annotations/train.json')
+        '--train_json_path', type=str, default='data/coco/train/train.json')
     parser.add_argument(
-        '--train_out_json', type=str, default='data/gaic/annotations/train.json')
+        '--train_out_json', type=str, default='data/coco/annotations/instances_train2017.json')
     parser.add_argument(
-        '--val_json_path', type=str, default='data/gaic/annotations/val.json')
+        '--val_json_path', type=str, default='data/coco/val/val.json')
     parser.add_argument(
-        '--val_out_json', type=str, default='data/gaic/annotations/val.json')
+        '--val_out_json', type=str, default='data/coco/annotations/instances_val2017.json')
 
     args = parser.parse_args()
 
