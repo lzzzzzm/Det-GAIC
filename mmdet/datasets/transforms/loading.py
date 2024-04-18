@@ -62,6 +62,8 @@ class LoadRGBTIRFromFile(BaseTransform):
     """
 
     def __init__(self,
+                 use_rgb=True,
+                 use_tir=False,
                  to_float32: bool = False,
                  color_type: str = 'color',
                  imdecode_backend: str = 'cv2',
@@ -69,6 +71,9 @@ class LoadRGBTIRFromFile(BaseTransform):
                  ignore_empty: bool = False,
                  *,
                  backend_args: Optional[dict] = None) -> None:
+        self.use_rgb = use_rgb
+        self.use_tir = use_tir
+        assert self.use_rgb or self.use_tir
         self.ignore_empty = ignore_empty
         self.to_float32 = to_float32
         self.color_type = color_type
@@ -131,8 +136,16 @@ class LoadRGBTIRFromFile(BaseTransform):
             img = img.astype(np.float32)
             tir_img = tir_img.astype(np.float32)
 
-        results['img'] = img
-        results['tir_img'] = tir_img
+        if self.use_tir and self.use_rgb is False:
+            results['img'] = tir_img
+
+        if self.use_rgb and self.use_tir is False:
+            results['img'] = img
+
+        if self.use_rgb and self.use_tir:
+            results['img'] = img
+            results['tir_img'] = tir_img
+
         results['img_shape'] = img.shape[:2]
         results['ori_shape'] = img.shape[:2]
         return results
