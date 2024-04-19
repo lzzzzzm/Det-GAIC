@@ -35,7 +35,9 @@ def convert_pkl2json(args):
     pkl_data = mmengine.load(pkl_file_path)
     out_json_data = []
     for data in pkl_data:
-        for box, label in zip(data['pred_instances']['bboxes'], data['pred_instances']['labels']):
+        for box, label, score in zip(data['pred_instances']['bboxes'], data['pred_instances']['labels'], data['pred_instances']['scores']):
+            if score < 0.2:
+                continue
             json_dict = dict()
             json_dict['image_id'] = int(data['img_id'])
             box = np.around(box.cpu().numpy(), 1)
@@ -45,7 +47,7 @@ def convert_pkl2json(args):
             write_box = [x1, y1, w, h]
             json_dict['bbox'] = write_box
             json_dict['category_id'] = int(label.item() + 1)
-            json_dict['score'] = 1.0
+            json_dict['score'] = np.around(float(score), 1)
             out_json_data.append(json_dict)
     out_json_data = check_image_id(out_json_data)
     with open(args.out_json, 'w') as fp:

@@ -8,7 +8,7 @@ num_dec_layer = 6
 loss_lambda = 2.0
 num_classes = 5
 
-image_size = (1024, 1024)
+image_size = (512, 512)
 batch_augments = [
     dict(type='BatchFixedSizePad', size=image_size, pad_mask=False)
 ]

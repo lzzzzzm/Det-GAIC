@@ -34,10 +34,10 @@ backend_args = None
 # Standard Scale Jittering (SSJ) resizes and crops an image
 # with a resize range of 0.8 to 1.25 of the original image size.
 load_pipeline = [
-    dict(type=LoadImageFromFile, backend_args=backend_args),
-    dict(type=LoadAnnotations, with_bbox=True, with_mask=True),
+    dict(type='LoadImageFromFile', backend_args=backend_args),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
     dict(
-        type=RandomResize,
+        type='RandomResize',
         scale=image_size,
         ratio_range=(0.8, 1.25),
         keep_ratio=True),
@@ -52,13 +52,13 @@ load_pipeline = [
     dict(type=Pad, size=image_size),
 ]
 train_pipeline = [
-    dict(type=CopyPaste, max_num_pasted=100),
-    dict(type=PackDetInputs)
+    dict(type='CopyPaste', max_num_pasted=100),
+    dict(type='PackDetInputs')
 ]
 
 train_dataloader.update(
     dict(
-        type=MultiImageMixDataset,
+        type='MultiImageMixDataset',
         dataset=dict(
             type=dataset_type,
             data_root=data_root,
