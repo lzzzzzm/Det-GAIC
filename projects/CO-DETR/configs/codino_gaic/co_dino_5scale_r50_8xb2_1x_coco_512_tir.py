@@ -304,6 +304,8 @@ dataset_type = 'CocoDataset'
 data_root = 'data/coco/'
 
 train_dataloader = dict(
+    batch_size=1,
+    num_workers=4,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
         pipeline=train_pipeline,
