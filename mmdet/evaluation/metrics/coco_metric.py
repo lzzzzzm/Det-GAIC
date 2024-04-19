@@ -68,6 +68,7 @@ class CocoMetric(BaseMetric):
     default_prefix: Optional[str] = 'coco'
 
     def __init__(self,
+                 dataset_meta=None,
                  ann_file: Optional[str] = None,
                  metric: Union[str, List[str]] = 'bbox',
                  classwise: bool = False,
@@ -91,7 +92,8 @@ class CocoMetric(BaseMetric):
                 raise KeyError(
                     "metric should be one of 'bbox', 'segm', 'proposal', "
                     f"'proposal_fast', but got {metric}.")
-
+        if dataset_meta is not None:
+            self.dataset_meta = dataset_meta
         # do class wise evaluation, default False
         self.classwise = classwise
         # whether to use multi processing evaluation, default False

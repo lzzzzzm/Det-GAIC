@@ -357,7 +357,7 @@ optim_wrapper = dict(
     clip_grad=dict(max_norm=0.1, norm_type=2),
     paramwise_cfg=dict(custom_keys={'backbone': dict(lr_mult=0.1)}))
 
-val_evaluator = dict(metric='bbox')
+val_evaluator = dict(metric='bbox', proposal_nums=(10, 100, 500))
 test_evaluator = val_evaluator
 
 max_epochs = 12
@@ -379,12 +379,12 @@ param_scheduler = [
 
 default_hooks = dict(
     checkpoint=dict(by_epoch=True, interval=1, max_keep_ckpts=3),
-    # visualization=dict(
-    #                  draw=True,
-    #                  show=False,
-    #                  test_out_dir='vis_pred',
-    #                  type='MyDetVisualizationHook',
-    #                  wait_time=2)
+    visualization=dict(
+                     draw=True,
+                     show=False,
+                     test_out_dir='vis_pred',
+                     type='MyDetVisualizationHook',
+                     wait_time=2)
 )
 log_processor = dict(by_epoch=True)
 

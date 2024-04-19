@@ -9,6 +9,8 @@ def parse_args():
         '--pkl_file', type=str, default='test.pkl')
     parser.add_argument(
         '--out_json', type=str, default='out_json/project/out.json')
+    parser.add_argument(
+        '--score_threshold', type=float, default=0.3)
 
     args = parser.parse_args()
 
@@ -36,8 +38,8 @@ def convert_pkl2json(args):
     out_json_data = []
     for data in pkl_data:
         for box, label, score in zip(data['pred_instances']['bboxes'], data['pred_instances']['labels'], data['pred_instances']['scores']):
-            if score < 0.2:
-                continue
+            # if score < args.score_threshold:
+            #     continue
             json_dict = dict()
             json_dict['image_id'] = int(data['img_id'])
             box = np.around(box.cpu().numpy(), 1)

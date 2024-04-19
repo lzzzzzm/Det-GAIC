@@ -63,8 +63,8 @@ model = dict(
         nms=dict(type='nms', iou_threshold=0.45),
         max_per_img=100))
 # dataset settings
-dataset_type = 'CocoGAICDataset'
-data_root = 'data/gaic/'
+dataset_type = 'CocoDataset'
+data_root = 'data/coco/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
